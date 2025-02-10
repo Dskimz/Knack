@@ -1,0 +1,27 @@
+name: Run Main Python Script
+
+on:
+  workflow_dispatch:  # Allows manual execution from GitHub Actions
+
+jobs:
+  run-python-script:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run the Python script
+        env:
+          GOOGLE_MAPS_API: ${{ secrets.GOOGLE_MAPS_API }}
+          KNACK_API_KEY: ${{ secrets.KNACK_API_KEY }}
+          KNACK_APP_ID: ${{ secrets.KNACK_APP_ID }}
+        run: python main.py
